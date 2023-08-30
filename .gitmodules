@@ -1,0 +1,3 @@
+[submodule "libs/phat"]
+	path = libs/phat
+	url = https://bitbucket.org/phat-code/phat.git
