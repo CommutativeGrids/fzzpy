@@ -1,0 +1,7 @@
+README.md
+pyproject.toml
+setup.py
+fzzpy.egg-info/PKG-INFO
+fzzpy.egg-info/SOURCES.txt
+fzzpy.egg-info/dependency_links.txt
+fzzpy.egg-info/top_level.txt
