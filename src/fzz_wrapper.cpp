@@ -12,6 +12,11 @@ std::vector< std::tuple<FZZ::Integer, FZZ::Integer, FZZ::Integer> > py_compute(
     const std::vector<FZZ::Simplex>& filt_simp,
     const std::vector<bool>& filt_op
 ) {
+
+    if (filt_simp.size() != filt_op.size()) {
+        throw std::invalid_argument("The lengths of simplexes and operations must be the same.");
+    }
+
     FZZ::FastZigzag fzz;
     std::vector< std::tuple<FZZ::Integer, FZZ::Integer, FZZ::Integer> > persistence;
     fzz.compute(filt_simp, filt_op, &persistence);
