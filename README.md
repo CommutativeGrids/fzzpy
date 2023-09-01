@@ -9,6 +9,7 @@ This repository provides a Python wrapper for [Fast Computation of Zigzag Persis
 - [CMake](https://cmake.org/) >= 3.5
 - [Boost](https://www.boost.org/) >= 1.5
 - [PHAT](https://bitbucket.org/phat-code/phat/src/master/) between 1.4 and 1.5. It is included as a submodule in `\libs\phat`, but you can change the directory path in `CMakeLists.txt` to your own.
+- [pybind11]
 
 ### Installation
 
