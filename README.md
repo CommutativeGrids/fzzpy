@@ -1,26 +1,26 @@
-# FastZigzag Python Wrapper
+# Python Wrapper for Fast Computation of Zigzag Persistence
 
-This repository provides a Python wrapper for the [Fast Computation of Zigzag Persistence](https://github.com/taohou01/fzz), originally implemented in C++. The bindings allow users to easily utilize the power of the FastZigzag C++ library directly within Python.
+This repository provides a Python wrapper for [Fast Computation of Zigzag Persistence](https://github.com/taohou01/fzz), originally implemented in C++. The bindings here allow users to easily utilize the power of the C++ library directly within Python.
 
 ## Getting Started
 
 ### Prerequisites
 
-- CMake for building
-- Boost library >= 1.65.1
-- PHAT library >=1.4, <=1.5. It's included as a submodule, but you can change the directory path to your own if desired.
+- [CMake](https://cmake.org/) >= 3.5
+- [Boost](https://www.boost.org/) >= 1.5
+- [PHAT](https://bitbucket.org/phat-code/phat/src/master/) between 1.4 and 1.5. It is included as a submodule in `\libs\phat`, but you can change the directory path in `CMakeLists.txt` to your own.
 
 ### Installation
 
-First, clone the repository:
+Clone this repository:
 
 ```bash
-git clone --recursive <REPO_URL>
+git clone --recursive https://github.com/CommutativeGrids/fzzpy.git
 ```
 
 Note: The `--recursive` flag ensures that submodules (like PHAT) are also cloned.
 
-Then, navigate to the directory and install the Python package:
+Then navigate to the directory and install the Python package:
 
 ```bash 
 pip install .
