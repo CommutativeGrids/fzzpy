@@ -90,8 +90,8 @@ void FastZigzag::compute(const std::vector<Simplex> &filt_simp,
         const std::vector<bool> &filt_op,
         std::vector< std::tuple<Integer, Integer, Integer> > *persistence) {
 
-    std::cout << "Received " << filt_simp.size() << " simplices." << std::endl;
-    std::cout << "Received " << filt_op.size() << " operations." << std::endl;
+    // std::cout << "Received " << filt_simp.size() << " simplices." << std::endl;
+    // std::cout << "Received " << filt_op.size() << " operations." << std::endl;
     
     orig_f_add_id.clear();
     orig_f_del_id.clear();

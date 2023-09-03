@@ -21,7 +21,7 @@ git clone --recursive https://github.com/CommutativeGrids/fzzpy.git
 
 Note: The `--recursive` flag ensures that submodules (like PHAT) are also cloned.
 
-Then navigate to the directory and install the Python package:
+Then navigate to the directory and install the Python package, the installation configuration is specified in `pyproject.toml`:
 
 ```bash 
 pip install .
