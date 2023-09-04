@@ -15,6 +15,8 @@
 #include <phat/algorithms/chunk_reduction.h>
 #include <phat/algorithms/row_reduction.h>
 #include <phat/algorithms/twist_reduction.h>
+#include <phat/algorithms/spectral_sequence_reduction.h>
+
 
 namespace FZZ { 
 
@@ -86,13 +88,30 @@ inline Integer getDim(const std::vector<phat::index> &bound_c) {
     return bound_c.size() - 1;
 }
 
+#include <chrono>
+#include <iostream>
+
+class SimpleTimer {
+public:
+    SimpleTimer() : mStart(std::chrono::high_resolution_clock::now()) {}
+
+    void report(const std::string& message) {
+        auto end = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - mStart).count();
+        std::cout << message << " took: " << duration << "ms" << std::endl;
+    }
+
+private:
+    std::chrono::high_resolution_clock::time_point mStart;
+};
+
 void FastZigzag::compute(const std::vector<Simplex> &filt_simp, 
         const std::vector<bool> &filt_op,
         std::vector< std::tuple<Integer, Integer, Integer> > *persistence) {
 
-    // std::cout << "Received " << filt_simp.size() << " simplices." << std::endl;
-    // std::cout << "Received " << filt_op.size() << " operations." << std::endl;
-    
+    std::cout << "Received " << filt_simp.size() << " simplices and operations" << std::endl;
+
+    // SimpleTimer timer;
     orig_f_add_id.clear();
     orig_f_del_id.clear();
     persistence->clear();
@@ -105,6 +124,7 @@ void FastZigzag::compute(const std::vector<Simplex> &filt_simp,
             if (filt_simp[i].size() - 1 > max_dim) { max_dim = filt_simp[i].size() - 1; }
         }
     }
+    // timer.report("Finished counting simplices and max dimension.");
 
     std::vector<phat::index> bound_c;
     // phat::boundary_matrix< phat::vector_vector > bound_chains;
@@ -155,6 +175,7 @@ void FastZigzag::compute(const std::vector<Simplex> &filt_simp,
             orig_f_id ++;
         }
     }
+    // timer.report("Finished computing boundary matrix.");
 
     assert(del_ids.size() == s_id-1);
     delete p_id_maps;
@@ -188,21 +209,56 @@ void FastZigzag::compute(const std::vector<Simplex> &filt_simp,
 
         s_id ++;
     }
+    // timer.report("Finished coning.");
 
     phat::persistence_pairs pairs;
-    phat::compute_persistence_pairs< phat::twist_reduction >( pairs, bound_chains );
 
-    for (phat::index idx = 0; idx < pairs.get_num_pairs(); idx++) {
-            Integer b = pairs.get_pair(idx).first;
-            Integer d = pairs.get_pair(idx).second - 1;
-            Integer p = bound_chains.get_dim(b);
+    // // the most time-consuming line
+    // phat::compute_persistence_pairs< phat::twist_reduction >( pairs, bound_chains );
+    // phat::compute_persistence_pairs< phat::spectral_sequence_reduction >( pairs, bound_chains );
+    phat::compute_persistence_pairs< phat::chunk_reduction >( pairs, bound_chains );
+    // // 
+    // // For twist_reduction
+    // auto start = std::chrono::high_resolution_clock::now();
+    // phat::compute_persistence_pairs< phat::twist_reduction >( pairs, bound_chains );
+    // auto end = std::chrono::high_resolution_clock::now();
+    // auto duration_twist = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    // std::cout << "Time taken by twist_reduction: " << duration_twist << " ms" << std::endl;
 
-            if (d < simp_num) { mapOrdIntv(b, d); } 
-            else { mapRelExtIntv(p, b, d); }
+    // // For spectral_sequence_reduction
+    // start = std::chrono::high_resolution_clock::now();
+    // phat::compute_persistence_pairs< phat::spectral_sequence_reduction >( pairs, bound_chains );
+    // end = std::chrono::high_resolution_clock::now();
+    // auto duration_spectral = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    // std::cout << "Time taken by spectral_sequence_reduction: " << duration_spectral << " ms" << std::endl;
 
-            if (b > filt_simp.size()) { continue; }
-            if (d > filt_simp.size()) { d = filt_simp.size(); }
-            persistence->emplace_back(b, d, p);
+    // // For chunk_reduction
+    // start = std::chrono::high_resolution_clock::now();
+    // phat::compute_persistence_pairs< phat::chunk_reduction >( pairs, bound_chains );
+    // end = std::chrono::high_resolution_clock::now();
+    // auto duration_chunk = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    // std::cout << "Time taken by chunk_reduction: " << duration_chunk << " ms" << std::endl;
+
+    size_t total_pairs = pairs.get_num_pairs();
+    // size_t progress_interval = total_pairs / 20; // This will print progress every 5%. Adjust as needed.
+    // std::cout << "Total pairs: " << total_pairs << std::endl;
+    for (phat::index idx = 0; idx < total_pairs; idx++) {
+        Integer b = pairs.get_pair(idx).first;
+        Integer d = pairs.get_pair(idx).second - 1;
+        Integer p = bound_chains.get_dim(b);
+
+        if (d < simp_num) { mapOrdIntv(b, d); } 
+        else { mapRelExtIntv(p, b, d); }
+
+        if (b > filt_simp.size()) { continue; }
+        if (d > filt_simp.size()) { d = filt_simp.size(); }
+        persistence->emplace_back(b, d, p);
+        
+        // // Print progression
+        // if (idx % progress_interval == 0) {
+        //     double progress = (double)idx / total_pairs * 100.0;
+        //     std::cout << "\rProgress: " << std::fixed << std::setprecision(2) << progress << "%" << std::flush;
+        // }
     }
     
     std::cout << "Processed barcode has " << persistence->size() << " entries." << std::endl;

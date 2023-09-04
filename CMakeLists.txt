@@ -21,6 +21,10 @@ include_directories(${Boost_INCLUDE_DIRS})
 # Find Python and pybind11
 find_package(Python REQUIRED COMPONENTS Interpreter Development.Module)
 find_package(pybind11 CONFIG REQUIRED)
+# Find OpenMP
+find_package(OpenMP REQUIRED)
+set(OpenMP_CXX_FLAGS "-Xpreprocessor -fopenmp")
+set(OpenMP_CXX_LIB_NAMES "libomp")
 
 # Create a shared library for Python
 python_add_library(_core_fzzpy MODULE 
@@ -30,5 +34,8 @@ python_add_library(_core_fzzpy MODULE
 target_link_libraries(_core_fzzpy PRIVATE pybind11::module)
 target_compile_definitions(_core_fzzpy PRIVATE VERSION_INFO=${PROJECT_VERSION})
 set_property(TARGET _core_fzzpy PROPERTY CXX_VISIBILITY_PRESET "default")
+if(OpenMP_CXX_FOUND)
+    target_link_libraries(_core_fzzpy PRIVATE OpenMP::OpenMP_CXX)
+endif()
 
 install(TARGETS _core_fzzpy DESTINATION ${SKBUILD_PROJECT_NAME})

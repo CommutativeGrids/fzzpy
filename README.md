@@ -6,9 +6,10 @@ This repository provides a Python wrapper for [Fast Computation of Zigzag Persis
 
 ### Prerequisites
 
-- [CMake](https://cmake.org/) >= 3.5
-- [Boost](https://www.boost.org/) >= 1.5
-- [PHAT](https://bitbucket.org/phat-code/phat/src/master/) between 1.4 and 1.5. It is included as a submodule in `\libs\phat`, but you can change the directory path in `CMakeLists.txt` to your own.
+- [CMake](https://cmake.org/): >= 3.5
+- [Boost](https://www.boost.org/): >= 1.5
+- [PHAT](https://bitbucket.org/phat-code/phat/src/master/): between 1.4 and 1.5. It is included as a submodule in `\libs\phat`, but you can change the directory path in `CMakeLists.txt` to your own.
+- [OpenMP](https://www.openmp.org/): Version 5.0 or higher (201811 or higher).. This is required for parallelization.
 - [pybind11]
 
 ### Installation
@@ -26,6 +27,21 @@ Then navigate to the directory and install the Python package, the installation 
 ```bash 
 pip install .
 ```
+
+#### For Mac Users
+
+If you encounter issues with OpenMP not being found even after installation, it might be because Apple's default Clang does not come with OpenMP support. In such cases, you can use the LLVM version of Clang provided by Homebrew which includes OpenMP.
+
+1. First, ensure we have the LLVM package installed:
+   ```bash
+   brew install llvm
+   ```
+2. After installing LLVM via Homebrew, set the CC and CXX environment variables to point to the Clang binaries provided by LLVM:
+   ```bash
+   export CC=/usr/local/opt/llvm/bin/clang
+   export CXX=/usr/local/opt/llvm/bin/clang++
+   ```
+
 ## Usage
 
 ### Within Python
@@ -81,6 +97,17 @@ write_persistence_intervals(result, "output_intervals.txt")
 ```
 This then generate a file following the format specified in `fzz`.
 
+
+## 
+In `fzz.cpp`, the following line
+```c++
+phat::compute_persistence_pairs< phat::twist_reduction >( pairs, bound_chains );
+```
+is replaced by
+```c++
+phat::compute_persistence_pairs< phat::chunk_reduction >( pairs, bound_chains );
+```
+to utilize multiple CPU cores computation supported by `PHAT`.
 
 ## License
 
