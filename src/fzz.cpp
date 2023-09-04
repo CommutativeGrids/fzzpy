@@ -216,6 +216,9 @@ void FastZigzag::compute(const std::vector<Simplex> &filt_simp,
     // // the most time-consuming line
     // phat::compute_persistence_pairs< phat::twist_reduction >( pairs, bound_chains );
     // phat::compute_persistence_pairs< phat::spectral_sequence_reduction >( pairs, bound_chains );
+    // check if openmp is enabled
+    #ifdef _OPENMP
+        std::cout << "OpenMP is enabled." << std::endl;
     phat::compute_persistence_pairs< phat::chunk_reduction >( pairs, bound_chains );
     // // 
     // // For twist_reduction
