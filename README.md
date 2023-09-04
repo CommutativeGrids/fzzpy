@@ -36,10 +36,10 @@ If you encounter issues with OpenMP not being found even after installation, it 
    ```bash
    brew install llvm
    ```
-2. After installing LLVM via Homebrew, set the CC and CXX environment variables to point to the Clang binaries provided by LLVM:
+2. After installing LLVM via Homebrew, set the CC and CXX environment variables to point to the Clang binaries provided by LLVM, the location of `llvm` can be obtained by running `brew info llvm`. The the compiler binaries are located in the `bin` directory of the installation path. For example, if the installation path is `/opt/homebrew/opt/llvm`, then the compiler binaries are located in `/opt/homebrew/opt/llvm/bin`. Then, set the environment variables as follows:
    ```bash
-   export CC=/usr/local/opt/llvm/bin/clang
-   export CXX=/usr/local/opt/llvm/bin/clang++
+   export CC=/opt/homebrew/opt/llvm/bin/clang
+   export CXX=/opt/homebrew/opt/llvm/bin/clang++
    ```
 
 ## Usage
