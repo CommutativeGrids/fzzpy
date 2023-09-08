@@ -2,6 +2,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include "fzz.h"
+#include <iostream>
 
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
@@ -30,14 +31,19 @@ std::vector< std::tuple<FZZ::Integer, FZZ::Integer, FZZ::Integer> > py_compute(
 }
 
 PYBIND11_MODULE(_core_fzzpy, m) {
+    // check if openmp is enabled
+    #ifdef _OPENMP
+        std::cout << "fzzpy: OpenMP is enabled." << std::endl;
+    #endif
+
     m.doc() = "Python wrapper for FastZigzag class from fzz C++ library to reorder tuple elements";
 
     m.def("compute", &py_compute, "Compute function for FastZigzag",
           py::arg("filt_simp"), py::arg("filt_op"));
 
-#ifdef VERSION_INFO
-    m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
-#else
-    m.attr("__version__") = "dev";
-#endif
+    #ifdef VERSION_INFO
+        m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
+    #else
+        m.attr("__version__") = "dev";
+    #endif
 }

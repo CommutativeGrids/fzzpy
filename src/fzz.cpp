@@ -105,6 +105,7 @@ private:
     std::chrono::high_resolution_clock::time_point mStart;
 };
 
+
 void FastZigzag::compute(const std::vector<Simplex> &filt_simp, 
         const std::vector<bool> &filt_op,
         std::vector< std::tuple<Integer, Integer, Integer> > *persistence) {
@@ -214,12 +215,9 @@ void FastZigzag::compute(const std::vector<Simplex> &filt_simp,
     phat::persistence_pairs pairs;
 
     // // the most time-consuming line
-    // check if openmp is enabled
-    #ifdef _OPENMP
-        std::cout << "OpenMP is enabled." << std::endl;
-    #endif
     // phat::compute_persistence_pairs< phat::twist_reduction >( pairs, bound_chains );
-    phat::compute_persistence_pairs< phat::spectral_sequence_reduction >( pairs, bound_chains );
+    phat::compute_persistence_pairs< phat::standard_reduction >( pairs, bound_chains );
+    // phat::compute_persistence_pairs< phat::spectral_sequence_reduction >( pairs, bound_chains );
     // phat::compute_persistence_pairs< phat::chunk_reduction >( pairs, bound_chains );
     // // 
     // // For twist_reduction
