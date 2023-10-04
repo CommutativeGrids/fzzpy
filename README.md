@@ -22,6 +22,7 @@ git clone --recursive https://github.com/CommutativeGrids/fzzpy.git
 
 Note: The `--recursive` flag ensures that submodules (like PHAT) are also cloned.
 
+Following the guidelines below to install the required dependencies based on your operating system.
 Then navigate to the directory and install the Python package, the installation configuration is specified in `pyproject.toml`:
 
 ```bash 
@@ -41,6 +42,25 @@ If you encounter issues with OpenMP not being found even after installation, it 
    export CC=/opt/homebrew/opt/llvm/bin/clang
    export CXX=/opt/homebrew/opt/llvm/bin/clang++
    ```
+
+#### For Linux Users (Ubuntu as an example)
+
+We still use clang as the compiler and use llvm. Run the following commands to install the required dependencies:
+
+```bash
+sudo apt update
+sudo apt install clang llvm
+sudo apt-get install libc++-dev libc++abi-dev
+export CXXFLAGS="-stdlib=libc++"
+export CC=clang
+export CXX=clang++
+```
+Notice that the export commands above are only valid for the current terminal session. 
+You can uninstall the dependencies after the installation by running `sudo apt remove clang llvm libc++-dev libc++abi-dev` after the installation.
+
+#### For Windows Users
+We encourage Windows users to use [WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10) to install this package.
+
 
 ## Usage
 
