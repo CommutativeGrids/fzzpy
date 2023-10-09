@@ -31,7 +31,7 @@ This repository provides a Python wrapper for [Fast Computation of Zigzag Persis
 | [Boost](https://www.boost.org/) | >= 1.5 | C++ libraries |
 | [PHAT](https://bitbucket.org/phat-code/phat/src/master/) | 1.4 - 1.5 | Included as a submodule in `\\libs\\phat` |
 | [OpenMP](https://www.openmp.org/) | >= 5.0 (201811 or higher) | For parallel computation |
-| pybind11 | - | C++ and Python bindings |
+| pybind11 | >=2.10 | C++ and Python bindings |
 
 * You can change the directory path of `PHAT` in `CMakeLists.txt` if you would like to use a different version of `PHAT`.
 
@@ -106,6 +106,8 @@ For more details about the algorithms, please refer to [phat 1.5](https://bitbuc
 
 ### Within Python
 
+Please also check the example in `examples/installation_verification.ipynb`.
+
 Input:
 - `filt_simp`: A list of tuples. Each tuple at index $k$ representing a simplex to be inserted or deleted in the $k$-th step
 - `filt_op`: A list of booleans. Each boolean at index $k$ representing whether the simplex at index $k$ in `filt_simp` is inserted or deleted in the $k$-th step
@@ -127,9 +129,9 @@ print(result)
 
 ### From a Filtration File
 
-Can read in a filtration file in the format as specified in `fzz`.
+Can read in a filtration file in the format as specified in `fzz`. Please also refer to the example in `examples/sample_filtration.ipynb`.
 
-With `sample_filt.txt`:
+With `filtration.txt`:
 ```txt
 i 0
 i 1

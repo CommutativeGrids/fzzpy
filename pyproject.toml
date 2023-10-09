@@ -4,7 +4,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "fzzpy"
-version = "0.5.0"
+version = "0.7.0"
 description = "Python wrapper for Fast Computation of Zigzag Persistence."
 readme = "README.md"
 authors = [
