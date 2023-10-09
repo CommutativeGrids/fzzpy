@@ -11,6 +11,7 @@
     - [Selecting the Algorithm](#selecting-the-algorithm)
     - [Within Python](#within-python)
     - [From a Filtration File](#from-a-filtration-file)
+  - [Citation](#citation)
   - [License](#license)
 
 # Python Wrapper for Fast Computation of Zigzag Persistence
@@ -161,7 +162,11 @@ write_persistence_intervals(result, "output_intervals.txt")
 ```
 This then generate a file following the format specified in `fzz`.
 
+## Citation
 
+If you use this software in your research, please consider citing the original paper on which this implementation is based:
+[Fast Computation of Zigzag Persistence](https://arxiv.org/pdf/2204.11080.pdf)
+by Tamal K. Dey and Tao Hou, which appears on the 2022 European Symposium on Algorithms (ESA). The programming language used is C++.
 
 ## License
 
