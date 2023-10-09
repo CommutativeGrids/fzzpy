@@ -30,7 +30,7 @@ This repository provides a Python wrapper for [Fast Computation of Zigzag Persis
 |----------|---------|-------------|
 | [CMake](https://cmake.org/) | >= 3.5 | Build tool |
 | [Boost](https://www.boost.org/) | >= 1.5 | C++ libraries |
-| [PHAT](https://bitbucket.org/phat-code/phat/src/master/) | 1.4 - 1.5 | Included as a submodule in `\\libs\\phat` |
+| [PHAT](https://bitbucket.org/phat-code/phat/src/master/) | 1.4 - 1.5 | Included as a submodule in `/libs/phat` |
 | [OpenMP](https://www.openmp.org/) | >= 5.0 (201811 or higher) | For parallel computation |
 | pybind11 | >=2.10 | C++ and Python bindings |
 
