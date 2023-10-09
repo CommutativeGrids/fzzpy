@@ -29,7 +29,8 @@ public:
     void compute(
         const std::vector<Simplex> &filt_simp, 
         const std::vector<bool> &filt_op,
-        std::vector< std::tuple<Integer, Integer, Integer> > *persistence);
+        std::vector< std::tuple<Integer, Integer, Integer> > *persistence,
+        const std::string& algorithm="standard_reduction");
 
 private:
     void mapOrdIntv(Integer &b, Integer &d) {

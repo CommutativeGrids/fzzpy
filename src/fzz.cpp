@@ -11,11 +11,11 @@
 #include <phat/representations/bit_tree_pivot_column.h>
 
 // algorithm (choice affects performance)
-#include <phat/algorithms/standard_reduction.h>
 #include <phat/algorithms/chunk_reduction.h>
 #include <phat/algorithms/row_reduction.h>
-#include <phat/algorithms/twist_reduction.h>
 #include <phat/algorithms/spectral_sequence_reduction.h>
+#include <phat/algorithms/standard_reduction.h>
+#include <phat/algorithms/twist_reduction.h>
 
 
 namespace FZZ { 
@@ -108,7 +108,8 @@ private:
 
 void FastZigzag::compute(const std::vector<Simplex> &filt_simp, 
         const std::vector<bool> &filt_op,
-        std::vector< std::tuple<Integer, Integer, Integer> > *persistence) {
+        std::vector< std::tuple<Integer, Integer, Integer> > *persistence,
+        const std::string& algorithm) {
 
     std::cout << "Received " << filt_simp.size() << " simplices and operations" << std::endl;
 
@@ -214,9 +215,23 @@ void FastZigzag::compute(const std::vector<Simplex> &filt_simp,
 
     phat::persistence_pairs pairs;
 
+    if (algorithm == "chunk_reduction") {
+        phat::compute_persistence_pairs< phat::chunk_reduction >( pairs, bound_chains );
+    } else if (algorithm == "row_reduction") {
+        phat::compute_persistence_pairs< phat::row_reduction >( pairs, bound_chains );
+    } else if (algorithm == "spectral_sequence_reduction") {
+        phat::compute_persistence_pairs< phat::spectral_sequence_reduction >( pairs, bound_chains );
+    } else if (algorithm == "standard_reduction") {
+        phat::compute_persistence_pairs< phat::standard_reduction >( pairs, bound_chains );
+    } else if (algorithm == "twist_reduction") {
+        phat::compute_persistence_pairs< phat::twist_reduction >( pairs, bound_chains );
+    } else {
+        throw std::invalid_argument("Invalid algorithm selection");
+    }
+
     // // the most time-consuming line
     // phat::compute_persistence_pairs< phat::twist_reduction >( pairs, bound_chains );
-    phat::compute_persistence_pairs< phat::standard_reduction >( pairs, bound_chains );
+    // phat::compute_persistence_pairs< phat::standard_reduction >( pairs, bound_chains );
     // phat::compute_persistence_pairs< phat::spectral_sequence_reduction >( pairs, bound_chains );
     // phat::compute_persistence_pairs< phat::chunk_reduction >( pairs, bound_chains );
     // // 
@@ -266,4 +281,4 @@ void FastZigzag::compute(const std::vector<Simplex> &filt_simp,
     std::cout << "Processed barcode has " << persistence->size() << " entries." << std::endl;
 }
 
-} // namespace FZZ { 
+} 

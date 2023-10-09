@@ -11,7 +11,8 @@ namespace py = pybind11;
 
 std::vector< std::tuple<FZZ::Integer, FZZ::Integer, FZZ::Integer> > py_compute(
     const std::vector<FZZ::Simplex>& filt_simp,
-    const std::vector<bool>& filt_op
+    const std::vector<bool>& filt_op,
+    const std::string& algorithm="chunk_reduction"
 ) {
 
     if (filt_simp.size() != filt_op.size()) {
@@ -20,7 +21,7 @@ std::vector< std::tuple<FZZ::Integer, FZZ::Integer, FZZ::Integer> > py_compute(
 
     FZZ::FastZigzag fzz;
     std::vector< std::tuple<FZZ::Integer, FZZ::Integer, FZZ::Integer> > persistence;
-    fzz.compute(filt_simp, filt_op, &persistence);
+    fzz.compute(filt_simp, filt_op, &persistence, algorithm);
 
     // Reordering the tuple elements
     for (auto& entry : persistence) {
@@ -32,14 +33,14 @@ std::vector< std::tuple<FZZ::Integer, FZZ::Integer, FZZ::Integer> > py_compute(
 
 PYBIND11_MODULE(_core_fzzpy, m) {
     // check if openmp is enabled
-    #ifdef _OPENMP
-        std::cout << "fzzpy: OpenMP is enabled." << std::endl;
-    #endif
+    // #ifdef _OPENMP
+    //     std::cout << "fzzpy: OpenMP is enabled." << std::endl;
+    // #endif
 
     m.doc() = "Python wrapper for FastZigzag class from fzz C++ library to reorder tuple elements";
 
     m.def("compute", &py_compute, "Compute function for FastZigzag",
-          py::arg("filt_simp"), py::arg("filt_op"));
+          py::arg("filt_simp"), py::arg("filt_op"), py::arg("algorithm")="standard_reduction");
 
     #ifdef VERSION_INFO
         m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
