@@ -1,18 +1,43 @@
+- [Python Wrapper for Fast Computation of Zigzag Persistence](#python-wrapper-for-fast-computation-of-zigzag-persistence)
+  - [Features](#features)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+      - [For Mac Users](#for-mac-users)
+      - [For Linux Users (Ubuntu as an example)](#for-linux-users-ubuntu-as-an-example)
+      - [For Windows Users](#for-windows-users)
+    - [Verify Installation](#verify-installation)
+  - [Usage](#usage)
+    - [Selecting the Algorithm](#selecting-the-algorithm)
+    - [Within Python](#within-python)
+    - [From a Filtration File](#from-a-filtration-file)
+  - [License](#license)
+
 # Python Wrapper for Fast Computation of Zigzag Persistence
 
 This repository provides a Python wrapper for [Fast Computation of Zigzag Persistence](https://github.com/taohou01/fzz), originally implemented in C++. The bindings here allow users to easily utilize the power of the C++ library directly within Python.
+
+## Features
+* **Easy Usage**:  Seamlessly utilize the power of the C++ implementation directly within Python.
+* **Flexible Algorithm Selection**: Choose from the five algorithms available in phat for computation.
 
 ## Getting Started
 
 ### Prerequisites
 
-- [CMake](https://cmake.org/): >= 3.5
-- [Boost](https://www.boost.org/): >= 1.5
-- [PHAT](https://bitbucket.org/phat-code/phat/src/master/): between 1.4 and 1.5. It is included as a submodule in `\libs\phat`, but you can change the directory path in `CMakeLists.txt` to your own.
-- [OpenMP](https://www.openmp.org/): Version 5.0 or higher (201811 or higher). Optional by `PHAT` but here we require it for executing parallel computation.
-- [pybind11]
+| Software | Version | Description |
+|----------|---------|-------------|
+| [CMake](https://cmake.org/) | >= 3.5 | Build tool |
+| [Boost](https://www.boost.org/) | >= 1.5 | C++ libraries |
+| [PHAT](https://bitbucket.org/phat-code/phat/src/master/) | 1.4 - 1.5 | Included as a submodule in `\\libs\\phat` |
+| [OpenMP](https://www.openmp.org/) | >= 5.0 (201811 or higher) | For parallel computation |
+| pybind11 | - | C++ and Python bindings |
+
+* You can change the directory path of `PHAT` in `CMakeLists.txt` if you would like to use a different version of `PHAT`.
 
 ### Installation
+
+We use clang as the compiler and use llvm. Please follow the instructions below to install the required dependencies based on your operating system.
 
 Clone this repository:
 
@@ -42,6 +67,7 @@ If you encounter issues with OpenMP not being found even after installation, it 
    export CC=/opt/homebrew/opt/llvm/bin/clang
    export CXX=/opt/homebrew/opt/llvm/bin/clang++
    ```
+The export commands above are only valid for the current terminal session.
 
 #### For Linux Users (Ubuntu as an example)
 
@@ -55,14 +81,28 @@ export CXXFLAGS="-stdlib=libc++"
 export CC=clang
 export CXX=clang++
 ```
-Notice that the export commands above are only valid for the current terminal session. 
-You can uninstall the dependencies after the installation by running `sudo apt remove clang llvm libc++-dev libc++abi-dev` after the installation.
+The export commands above are only valid for the current terminal session. 
+You can also uninstall the dependencies by running `sudo apt remove clang llvm libc++-dev libc++abi-dev` after the installation.
 
 #### For Windows Users
 We encourage Windows users to use [WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10) to install this package.
 
+### Verify Installation
+
+Run the codes `examples/installation_verification.ipynb` to verify the installation.
 
 ## Usage
+
+### Selecting the Algorithm
+
+The algorithm is specified via the `algorithm` parameter in the `compute` function. The following algorithms are available:
+* `chunk_reduction`
+* `row_reduction`
+* `spectral_sequence_reduction`
+* `standard_reduction`
+* `twist_reduction`
+By default, the `chunk_reduction` algorithm is used.
+For more details about the algorithms, please refer to [phat 1.5](https://bitbucket.org/phat-code/phat/src/v1.5/)
 
 ### Within Python
 
@@ -118,17 +158,7 @@ write_persistence_intervals(result, "output_intervals.txt")
 This then generate a file following the format specified in `fzz`.
 
 
-## 
-In `fzz.cpp`, the following line
-```c++
-phat::compute_persistence_pairs< phat::twist_reduction >( pairs, bound_chains );
-```
-is replaced by
-```c++
-phat::compute_persistence_pairs< phat::chunk_reduction >( pairs, bound_chains );
-```
-to utilize multiple CPU cores computation supported by `PHAT`.
 
 ## License
 
-TBD
+This project is a wrapper around the [fzz](https://github.com/taohou01/fzz) library. We do not introduce any new licensing terms. Please refer to the original license of the fzz project for usage terms and conditions.
