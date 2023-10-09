@@ -7,7 +7,7 @@ project(
 
 # Compiler and Options
 message( "Compiler: ${CMAKE_CXX_COMPILER}" )
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -O3")
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -O3")
 message( "Option: ${CMAKE_CXX_FLAGS}" )
 
 # Include Directories
@@ -31,6 +31,10 @@ python_add_library(_core_fzzpy MODULE
     src/fzz.cpp 
     src/fzz_wrapper.cpp
 )
+
+# Specify the C++14 requirement for the target
+target_compile_features(_core_fzzpy PRIVATE cxx_std_14)
+
 target_link_libraries(_core_fzzpy PRIVATE pybind11::module)
 target_compile_definitions(_core_fzzpy PRIVATE VERSION_INFO=${PROJECT_VERSION})
 set_property(TARGET _core_fzzpy PROPERTY CXX_VISIBILITY_PRESET "default")

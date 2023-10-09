@@ -33,6 +33,8 @@ This repository provides a Python wrapper for [Fast Computation of Zigzag Persis
 | [OpenMP](https://www.openmp.org/) | >= 5.0 (201811 or higher) | For parallel computation |
 | pybind11 | >=2.10 | C++ and Python bindings |
 
+* `phat` is included as a submodule.
+* `OpenMP` will be automatically installed if installing `llvm` and using `clang` as the compiler.
 * You can change the directory path of `PHAT` in `CMakeLists.txt` if you would like to use a different version of `PHAT`.
 
 ### Installation
