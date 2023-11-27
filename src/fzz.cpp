@@ -16,6 +16,9 @@
 #include <phat/algorithms/spectral_sequence_reduction.h>
 #include <phat/algorithms/standard_reduction.h>
 #include <phat/algorithms/twist_reduction.h>
+#include <chrono>
+#include <iostream>
+#include <string>
 
 
 namespace FZZ { 
@@ -87,9 +90,6 @@ inline Integer getDim(const std::vector<phat::index> &bound_c) {
     if (bound_c.size() == 0) { return 0; }
     return bound_c.size() - 1;
 }
-
-#include <chrono>
-#include <iostream>
 
 class SimpleTimer {
 public:
