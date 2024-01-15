@@ -111,7 +111,7 @@ void FastZigzag::compute(const std::vector<Simplex> &filt_simp,
         std::vector< std::tuple<Integer, Integer, Integer> > *persistence,
         const std::string& algorithm) {
 
-    std::cout << "Received " << filt_simp.size() << " simplices and operations" << std::endl;
+    std::cout << "Received " << filt_simp.size() << " simplices" << std::endl;
 
     // SimpleTimer timer;
     orig_f_add_id.clear();
