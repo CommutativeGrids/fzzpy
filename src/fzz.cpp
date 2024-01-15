@@ -278,7 +278,7 @@ void FastZigzag::compute(const std::vector<Simplex> &filt_simp,
         // }
     }
     
-    std::cout << "Processed barcode has " << persistence->size() << " entries." << std::endl;
+    // std::cout << "Processed barcode has " << persistence->size() << " entries." << std::endl;
 }
 
 } 
