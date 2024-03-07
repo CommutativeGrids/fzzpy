@@ -19,6 +19,8 @@
 This repository provides a Python wrapper for [Fast Computation of Zigzag Persistence](https://github.com/taohou01/fzz), originally implemented in C++ based on a Fast Zigzag algorithm developed by Dey and Hou in the paper
 > Fast Computation of Zigzag Persistence, Proc. 30th European Symposium on Algorithms (ESA 2022), Vol. 244 of LIPIcs, pages 43:1--43:15. ArXiv preprint: arXiv:2204.11080(2022).
 
+Please note that official Python bindings have been made available as of 2023.10.01.
+
 ## Features
 * **Easy Usage**:  Seamlessly utilize the power of the C++ implementation directly within Python.
 * **Flexible Algorithm Selection**: Choose from the five algorithms available in phat for computation.
